@@ -1,0 +1,28 @@
+{
+    "project": "experience-registry-studio",
+    "awsAcct": "cpd-apps",
+    "variables": {
+        "awsRegion": "us-west-2"
+    },
+    "webapp": {
+        "buildCommand": "build:prod",
+        "buildDir": "static",
+        "domains": [
+            "experience-registry.biw.cloud"
+        ]
+    },
+    "environments": {
+        "qa": {
+            "awsAcct": "cpd-apps-np",
+            "vpcName": "np"
+        },
+        "pprd": {
+            "awsAcct": "cpd-apps-np",
+            "vpcName": "np"
+        },
+        "prod": {
+            "awsAcct": "cpd-apps",
+            "vpcName": "prod"
+        }
+    }
+}

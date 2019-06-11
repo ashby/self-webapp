@@ -1,0 +1,11 @@
+title: Experience Registry Studio
+status: development
+description: Experience Registry Management UI
+launchDate: 2019
+owner:
+  name: Ashby Utting
+  email: ashby.utting@biworldwide.com
+files:
+  - Howto.md
+  - ../README.md
+  - requirements.md

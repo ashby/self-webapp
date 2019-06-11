@@ -1,0 +1,9 @@
+.vscode/
+*.code-workspace
+*.log
+*/build/
+coverage/
+node_modules/
+out/
+.idea
+.DS_Store

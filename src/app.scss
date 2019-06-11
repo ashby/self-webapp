@@ -1,0 +1,118 @@
+@import "~@blueprintjs/core/lib/scss/variables.scss";
+@import "~@blueprintjs/icons/lib/css/blueprint-icons.css";
+@import "~@blueprintjs/core/src/blueprint.scss";
+@import "~@blueprintjs/select/src/blueprint-select.scss";
+
+#app {
+    color: brown;
+}
+
+a[aria-current="page"] {
+    .bp3-button {
+        @extend .bp3-active;
+    }
+}
+
+body {
+    @extend .bp3-dark;
+    background-color: #30404d;
+    margin: 0;
+}
+
+main {
+    padding: 60px 15px 0;
+    & > div {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+}
+
+.grid-list {
+    &__item {
+        padding: 15px;
+        min-width: 500px;
+        width: 50%;
+    }
+    &__item-header {
+        display: flex;
+        justify-content: space-between;
+    }
+    &__item-actions {
+
+    }
+    &__item-edit {
+        textarea {
+            min-height: 300px;
+        }
+    }
+    &__item-edit-actions {
+        display: flex;
+        justify-content: space-around;
+    }
+}
+
+.bp3-input-group {
+    min-width: 100%;
+    .bp3-tag-remove {
+        .bp3-icon {
+            color: $dark-gray1;
+        }
+    }
+    &__label {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        .select-box {
+            min-width: 100%;
+        }
+    }
+}
+.bp3-input-multi-select {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+
+    .bp3-popover-target {
+        width: 100%;
+    }
+}
+
+.bp3-input-select{
+    .bp3-popover-target {
+        width: 100%;
+        button {
+            width: 100%;
+            justify-content: space-between;
+            margin: 3px 0;
+        }
+    }
+    .bp3-tag-input-values {
+        min-width: 100%;
+    }
+}
+
+.item-link {
+    &__button {
+        .bp3-button-text {
+            flex-direction: column
+        }
+    }
+    &__name {
+        display: block
+    }
+    &__detail {
+        font-size: 0.7em;
+    }
+}
+
+.resource-view {
+    display: flex;
+    align-content: flex-start;
+    width: 100%;
+}
+
+.domain-list {
+    list-style-type: none;
+    padding-left: 0px;
+}

@@ -1,0 +1,29 @@
+image: containers.biw-services.com/cpd/docker-images/gitlab-builder:latest
+
+include:
+  - https://cpd.biw-pages.com/ci-includes/common/stages.yml
+  - https://cpd.biw-pages.com/ci-includes/common/services.yml
+  - https://cpd.biw-pages.com/ci-includes/xena/deploy/automatic-master-to-qa.yml
+  - https://cpd.biw-pages.com/ci-includes/xena/deploy/manual-master-to-pprd.yml
+  - https://cpd.biw-pages.com/ci-includes/xena/deploy/manual-master-to-prod.yml
+  - https://cpd.biw-pages.com/ci-includes/security/sast.yml
+  - https://cpd.biw-pages.com/ci-includes/security/dast.yml
+  - https://cpd.biw-pages.com/ci-includes/nackle.tools/update-nackle-from-atom.yml
+
+variables:
+  OWNER_NAMESPACE: cpd
+  GIT_STRATEGY: clone
+  BIW_CPD_APP_NAME: experience-registry-studio
+  BIW_CPD_REGISTRY_URL: https://npm-registry.biw-services.com/
+
+unit-test:
+  stage: test
+  dependencies: []
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - coverage/lcov.info
+  script:
+    - /biw-cpd-ci-scripts/set-registry-node/3/set-registry-node.sh
+    - yarn install
+    - yarn test:coverage
