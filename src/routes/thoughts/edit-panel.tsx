@@ -1,4 +1,5 @@
 import React from 'react';
+import { Query } from 'react-apollo';
 import get from 'lodash/get';
 import EditResource from 'components/edit-resource';
 import QuerySelect from 'components/query-select';
@@ -6,6 +7,7 @@ import SelectInput from 'components/select-input';
 import EditableInput from 'components/editable-input';
 import Thought from 'queries/thought';
 import Character from 'queries/character';
+import Process from 'queries/process';
 
 import { IThought } from 'types/interfaces';
 
@@ -36,6 +38,7 @@ export default class EditPanel extends React.Component<IEditPanelProps, IEditPan
             path: props.resource.path,
             amendedAt: props.resource.amendedAt,
             sharedAt: props.resource.sharedAt,
+            processes: [],
             isDisabled: false
         };
     }
@@ -102,6 +105,17 @@ export default class EditPanel extends React.Component<IEditPanelProps, IEditPan
 
         return data;
     }
+    handleCharacterChange = ( key:any ) => {
+        this.setState( { character: key } );
+        this.setProcess( key );
+    }
+
+    setCharacters = ( data:any ) => this.setState( { characters: data.characters } );
+
+    setProcess = ( data:any ) => {
+        const process = data.characters.filter( ( c:any ) => c.key === this.state.character )
+        this.setState( { process } );
+    }
 
     public render() {
         
@@ -118,6 +132,7 @@ export default class EditPanel extends React.Component<IEditPanelProps, IEditPan
             amendedAt, 
             sharedAt
         } = this.state;
+        console.log( character );
         return (
             <EditResource
                 Resource={Thought}
@@ -128,13 +143,30 @@ export default class EditPanel extends React.Component<IEditPanelProps, IEditPan
             <QuerySelect 
                 query={Character.list}
                 attrKey="character"
-                onChange={this.handleChange}
+                onChange={this.handleCharacterChange}
                 value={character}
                 labelKey="title"
-                idKey="key">
+                idKey="key"
+                handleCompleted={this.setCharacters}>
                 Character
             </QuerySelect>
-                <br />
+            <br />
+            {
+                process &&
+                <Query query={Process.get} variables={{ key: process }}>
+                { () => (
+                    <EditableInput 
+                        attrKey="companyId"
+                        onChange={this.handleChange}
+                        disabled={true}
+                        isDirty={false}
+                        value={process}>
+                        Process
+                    </EditableInput>
+                ) }
+                    
+                </Query>
+            }
             { /*
                 <QuerySelect 
                     query={Thought.list}

@@ -7,6 +7,8 @@ import { Link } from '@reach/router';
 import GraphqlWrapper from 'components/graphql-wrapper';
 import GqlResource from '../util/gql-resource';
 
+import { CONFIG } from '../config';
+
 const GraphQL: React.ComponentClass<any> = Query;
 
 interface IItemLinkProps {
@@ -28,20 +30,20 @@ interface IListingViewOptions {
 
 const ItemLink = ({ name, detail, id, resource, identityName }: IItemLinkProps) => {
     let linkId;
-    switch(resource.__typename) {
-        case 'Experience':
-            linkId = resource.name;
-            break;
-        case 'Identity':
-            linkId = resource.name;
-            break;
-        case 'Solution':
-            linkId = resource.companyId;
-            break;
-        default:
-            linkId = id;
-            break;
-    }
+    // switch(resource.__typename) {
+    //     case 'Experience':
+    //         linkId = resource.name;
+    //         break;
+    //     case 'Identity':
+    //         linkId = resource.name;
+    //         break;
+    //     case 'Solution':
+    //         linkId = resource.companyId;
+    //         break;
+    //     default:
+    //         linkId = id;
+    //         break;
+    // }
     return (
         <Link to={linkId}>
             <Button className="item-link__button">
@@ -59,7 +61,7 @@ export default function listingView(Resource: GqlResource, options: IListingView
     const { dataKey } = Resource.list;
 
     const ResourceList = () => (
-        <GraphQL query={Resource.list}>
+        <GraphQL query={Resource.list} variables={{ userId: localStorage.getItem( CONFIG.USER_ID ) }}>
             {GraphqlWrapper(({ data }: IWrappedQueryProps) => (
                 <ButtonGroup vertical alignText="left">
                     <Link to="./"><Button>{options.newLabel || 'New'}</Button></Link>

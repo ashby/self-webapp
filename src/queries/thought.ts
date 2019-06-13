@@ -21,8 +21,8 @@ const Fragment = gql`
 
 
 const list = gql`
-    query($id: String!) {
-        thoughts(userId: $id) {
+    query($userId: ID!) {
+        thoughts(userId: $userId) {
             ...ThoughtData
         }
     }
@@ -30,7 +30,7 @@ const list = gql`
 `;
 
 const get = gql`
-    query($id: String!) {
+    query($id: ID!) {
         thought(id: $id) {
             ...ThoughtData
         }

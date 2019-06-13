@@ -6,17 +6,17 @@ import { CONFIG } from '../config';
 
 class Main extends React.Component<IWithChildren>{
     logout = () => {
-        localStorage.deleteItem( CONFIG.AUTH_TOKEN );
-        localStorage.deleteItem( CONFIG.USER_ID );
-        this.props.navigate && this.props.navigate( '/login' );
+        localStorage.removeItem( CONFIG.AUTH_TOKEN );
+        localStorage.removeItem( CONFIG.USER_ID );
+        this.props.navigate && this.props.navigate( '/' );
     }
     signin = () => this.props.navigate && this.props.navigate( '/login' )
     render() {
         const authToken = localStorage.getItem( CONFIG.AUTH_TOKEN );
         return(
-            <div className="bp3-dark">
-        <Navbar className="bp3-dark">
-            <Navbar.Group align={Alignment.CENTER}>
+            <div>
+        <Navbar>
+            <Navbar.Group align={Alignment.LEFT}>
                 <Navbar.Heading>Self</Navbar.Heading>
                 {
                     authToken && [
