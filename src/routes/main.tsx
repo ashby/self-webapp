@@ -5,8 +5,14 @@ import { IWithChildren } from 'types/interfaces';
 import { CONFIG } from '../config';
 
 class Main extends React.Component<IWithChildren>{
+    logout = () => {
+        localStorage.deleteItem( CONFIG.AUTH_TOKEN );
+        localStorage.deleteItem( CONFIG.USER_ID );
+        this.props.navigate && this.props.navigate( '/login' );
+    }
+    signin = () => this.props.navigate && this.props.navigate( '/login' )
     render() {
-        const authToken = localStorage.getItem(CONFIG.AUTH_TOKEN)
+        const authToken = localStorage.getItem( CONFIG.AUTH_TOKEN );
         return(
             <div className="bp3-dark">
         <Navbar className="bp3-dark">
@@ -23,7 +29,13 @@ class Main extends React.Component<IWithChildren>{
                         <Link key="thoughts-route-link" to="thoughts"><Button>Thoughts</Button></Link>
                     ]
                 }
-                
+            </Navbar.Group>
+            <Navbar.Group align={Alignment.RIGHT}>
+                { 
+                    authToken ?
+                    <Button onClick={this.logout}>Log Out</Button> :
+                    <Button onClick={this.signin}>Sign in</Button>
+                }
             </Navbar.Group>
         </Navbar>
         <main>

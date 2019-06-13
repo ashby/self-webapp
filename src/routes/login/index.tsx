@@ -1,24 +1,35 @@
 import React from 'react';
-import { CONFIG } from '../../config';
+import { Mutation } from 'react-apollo';
+import gql from 'graphql-tag'
 import { FormGroup, InputGroup, Button } from '@blueprintjs/core';
+import { RouteComponentProps } from '@reach/router';
+// config
+import { CONFIG } from '../../config';
+// queries
+import Login from 'queries/login';
+import Signup from 'queries/signup';
 
-interface LoginProps {
-    path: string
-}
 
-export default class Login extends React.Component<LoginProps> {
+// interface LoginProps {
+//     path: string
+//     navigate: Function
+// }
+
+export default class LoginScreen extends React.Component<RouteComponentProps> {
     state = {
         login: true, // switch between Login and SignUp
-        email: '',
-        password: ''
+        email: 'asdfas@asdfas.com',
+        password: 'fasfas'
     }
 
-    confirm = async () => {
-        // ... you'll implement this 🔜
+    confirm = async ( data: any ) => {
+       this.saveUserData( data.login.token, data.login.userId );
+       this.props.navigate && this.props.navigate( '/' );
     }
     
-    saveUserData = ( token: any ) => {
+    saveUserData = ( token: string, userId: string ) => {
         localStorage.setItem( CONFIG.AUTH_TOKEN, token )
+        localStorage.setItem( CONFIG.USER_ID, userId )
     }
 
     handleChange = (event: React.FormEvent<HTMLInputElement>) => {
@@ -34,14 +45,7 @@ export default class Login extends React.Component<LoginProps> {
                 <h4 className="mv3">{login ? 'Login' : 'Sign Up'}</h4>
                 <div className="flex flex-column">
                     {!login && 
-                        <FormGroup>
-                            <input
-                                value={name}
-                                onChange={e => this.setState({ name: e.target.value })}
-                                type="text"
-                                placeholder="Your name"
-                            />
-                        </FormGroup>
+                        <p>Enter email and password.</p>
                     }
                     <FormGroup>
                         <InputGroup
@@ -63,9 +67,16 @@ export default class Login extends React.Component<LoginProps> {
                     </FormGroup>
                 </div>
                 <div>
-                    <Button onClick={this.confirm}>
-                        {login ? 'Login' : 'Create Account'}
-                    </Button>
+                    <Mutation
+                        mutation={login ? Login : Signup}
+                        variables={{ email, password }}
+                        onCompleted={(data:any) => this.confirm( data )}>
+                    {( mutation:any ) => (
+                        <Button onClick={mutation}>
+                            {login ? 'Login' : 'Create Account'}
+                        </Button>
+                    )}
+                    </Mutation>
                     <Button
                         className="pointer button"
                         onClick={() => this.setState({ login: !login })}

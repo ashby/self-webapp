@@ -1,5 +1,6 @@
 export interface IWithChildren {
     path?: string
+    navigate?: Function
     children: any;
 }
 

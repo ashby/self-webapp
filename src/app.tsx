@@ -10,12 +10,12 @@ import { ApolloProvider } from 'react-apollo';
 import Main from './routes/main';
 import Login from './routes/login';
 import Thoughts from './routes/thoughts';
-
+import { CONFIG } from './config';
 import './app.scss';
 
 const buildApolloClient = memoize(() =>
     new ApolloClient({
-        uri: `${API_URL}/v1/graphql`,
+        uri: `${CONFIG.API_URL}/v1/graphql`,
         headers: {
             Authentication: `${localStorage.getItem( 'AUTH_TOKEN' )}`,
         },

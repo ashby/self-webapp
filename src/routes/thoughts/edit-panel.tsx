@@ -5,6 +5,7 @@ import QuerySelect from 'components/query-select';
 import SelectInput from 'components/select-input';
 import EditableInput from 'components/editable-input';
 import Thought from 'queries/thought';
+import Character from 'queries/character';
 
 import { IThought } from 'types/interfaces';
 
@@ -64,16 +65,35 @@ export default class EditPanel extends React.Component<IEditPanelProps, IEditPan
     public handleChange = (value: any, key: string) => {
         this.setState({ [key]: value });
     }
-    public handleIdentityChange = (value: any, key: string, item: any) => {
-        console.log( item );
-        this.setState({ identity: value, identityName: item.name, companyId: value });
-    }
+
     public isValid = () => true;
 
     public handleSave = () => {
         this.setState({ isDisabled: true });
-        const { companyId, identityName, experiences } = this.state;
-        const data: any = { companyId, identityName, experiences: { set: [ ...experiences ] } };
+        const { 
+            thought, 
+            character, 
+            quality, 
+            process, 
+            source, 
+            feeling, 
+            userId, 
+            path, 
+            amendedAt, 
+            sharedAt
+        } = this.state;
+        const data: any = { 
+            thought, 
+            character, 
+            quality, 
+            process, 
+            source, 
+            feeling, 
+            userId, 
+            path, 
+            amendedAt, 
+            sharedAt
+         };
         const { resource } = this.props;
 
         if (resource.id !== 'new') {
@@ -87,7 +107,16 @@ export default class EditPanel extends React.Component<IEditPanelProps, IEditPan
         
         const { resource } = this.props;
         const { 
-            thoughts
+            thought, 
+            character, 
+            quality, 
+            process, 
+            source, 
+            feeling, 
+            userId, 
+            path, 
+            amendedAt, 
+            sharedAt
         } = this.state;
         return (
             <EditResource
@@ -96,6 +125,16 @@ export default class EditPanel extends React.Component<IEditPanelProps, IEditPan
                 onSaveComplete={this.handleSaveComplete}
                 onReset={this.resetValues}
             >
+            <QuerySelect 
+                query={Character.list}
+                attrKey="character"
+                onChange={this.handleChange}
+                value={character}
+                labelKey="title"
+                idKey="key">
+                Character
+            </QuerySelect>
+                <br />
             { /*
                 <QuerySelect 
                     query={Thought.list}

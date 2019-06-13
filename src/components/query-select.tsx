@@ -42,7 +42,7 @@ export default class QuerySelect extends React.Component<IQuerySelectProps> {
 
     public render() {
         return (
-            <Query query={this.props.query}>
+            <Query variables={{ userId: localStorage.getItem( 'userId' ) }} query={this.props.query}>
                 {this.queryRenderer}
             </Query>
         );

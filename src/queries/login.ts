@@ -1,20 +1,12 @@
 import gql from 'graphql-tag';
-import GqlResource from '../util/gql-resource';
-
-const Fragment = gql`
-    fragment LoginData on Login {
-        token
-        userId
-    }
-`;
 
 const mutate = gql`
-    mutation Login($data: AuthPayload! ) {
-        login( data: $data ) {
-            ...LoginData
+    mutation Login( $email: String!, $password: String! ) {
+        login( email: $email, password: $password ) {
+            token
+            userId
         }
     }
-    ${Fragment}
 `;
 
-export default new GqlResource({ mutate });
+export default mutate;

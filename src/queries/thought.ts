@@ -21,8 +21,8 @@ const Fragment = gql`
 
 
 const list = gql`
-    query {
-        thoughts {
+    query($id: String!) {
+        thoughts(userId: $id) {
             ...ThoughtData
         }
     }
