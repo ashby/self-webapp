@@ -123,7 +123,7 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
-"@blueprintjs/core@^3.15.0", "@blueprintjs/core@^3.9.0":
+"@blueprintjs/core@^3.15.0", "@blueprintjs/core@^3.15.1", "@blueprintjs/core@^3.9.0":
   version "3.15.1"
   resolved "https://npm-registry.biw-services.com/@blueprintjs%2fcore/-/core-3.15.1.tgz#9792e9fb7e2e066dd5339fadeaf2f85b1485832a"
   dependencies:
@@ -136,6 +136,15 @@
     react-popper "^1.0.0"
     react-transition-group "^2.2.1"
     resize-observer-polyfill "^1.5.0"
+    tslib "^1.9.0"
+
+"@blueprintjs/datetime@^3.9.1":
+  version "3.9.1"
+  resolved "https://npm-registry.biw-services.com/@blueprintjs%2fdatetime/-/datetime-3.9.1.tgz#050fabe0e0e3e081288400fd253f4d2dcac3435d"
+  dependencies:
+    "@blueprintjs/core" "^3.15.1"
+    classnames "^2.2"
+    react-day-picker "^7.3.0"
     tslib "^1.9.0"
 
 "@blueprintjs/icons@^3.3.0", "@blueprintjs/icons@^3.8.0":
@@ -4655,6 +4664,12 @@ react-apollo@^2.3.2:
     prop-types "^15.7.2"
     ts-invariant "^0.4.2"
     tslib "^1.9.3"
+
+react-day-picker@^7.3.0:
+  version "7.3.0"
+  resolved "https://npm-registry.biw-services.com/react-day-picker/-/react-day-picker-7.3.0.tgz#59b6d4e19d274650c79dcf49fbcce2637313467d"
+  dependencies:
+    prop-types "^15.6.2"
 
 react-dom@^16.8.6:
   version "16.8.6"

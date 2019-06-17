@@ -8,7 +8,7 @@ import { CONFIG } from '../config';
 
 interface IQuerySelectProps extends ISelectProps {
     query: any;
-    multiSelect: boolean;
+    multiSelect?: boolean;
     client?: string
     handleCompleted?: any
 }
@@ -17,6 +17,7 @@ export default class QuerySelect extends React.Component<IQuerySelectProps> {
     public static defaultProps = {
         multiSelect: false,
         ...SelectInput.defaultProps,
+        items: []
     };
 
     public queryRenderer = ({ loading, error, data }: IGraphqlWrapper<any>): any => {

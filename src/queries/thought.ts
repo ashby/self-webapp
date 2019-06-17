@@ -15,7 +15,10 @@ const Fragment = gql`
         createdAt
         updatedAt
         amendedAt
-        sharedAt
+        sharedAt,
+        resolves,
+        resolvedAt,
+        prayedAt
     }
 `;
 

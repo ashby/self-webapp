@@ -3,7 +3,13 @@ import GqlResource from '../util/gql-resource';
 
 const Fragment = gql`
     fragment ProcessData on Process {
-        
+        id
+        key
+        title
+        sources
+        createdAt
+        updatedAt
+        userId
     }
 `;
 
@@ -18,8 +24,8 @@ const list = gql`
 `;
 
 const get = gql`
-    query($userId: ID!) {
-        process(userId: $userId) {
+    query($key: String!) {
+        process(key: $key) {
             ...ProcessData
         }
     }

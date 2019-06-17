@@ -13,19 +13,20 @@ import { IThought } from 'types/interfaces';
 
 const DEFAULT_THOUGHT: IThought = {
     __typename: 'Thought',
-    thought: '',
+    thought: 'Ripley',
     id: 'new',
-    character: '',
+    character: 'seeker-cjwywplkh00420751u0o13jgp',
     quality: true,
-    process: '',
-    source: '',
-    feeling: '',
-    userId: '',
-    path: '',
-    createdAt: '',
-    updatedAt: '',
-    amendedAt: '',
-    sharedAt: ''
+    process: 'virtue-cjwywplkh00420751u0o13jgp',
+    source: 'mind-cjwywplkh00420751u0o13jgp',
+    feeling: 'fear-cjwywplkh00420751u0o13jgp',
+    userId: 'cjwywplkh00420751u0o13jgp',
+    path: 'experience-cjwywplkh00420751u0o13jgp',
+    amendedAt: undefined,
+    sharedAt: undefined,
+    resolves: undefined,
+    resolvedAt: undefined,
+    prayedAt: undefined
 };
 
 const NewResource = (props: any) => (

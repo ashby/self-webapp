@@ -2,11 +2,10 @@ import gql from 'graphql-tag';
 import GqlResource from '../util/gql-resource';
 
 const Fragment = gql`
-    fragment PathData on Path {
+    fragment EmotionData on Emotion {
         id
         key
         title
-        feelings
         createdAt
         updatedAt
         userId
@@ -16,8 +15,8 @@ const Fragment = gql`
 
 const list = gql`
     query($userId: ID!) {
-        paths(userId: $userId) {
-            ...PathData
+        emotions(userId: $userId) {
+            ...EmotionData
         }
     }
     ${Fragment}
@@ -25,17 +24,17 @@ const list = gql`
 
 const get = gql`
     query($key: String!) {
-        path(key: $key) {
-            ...PathData
+        emotion(key: $key) {
+            ...EmotionData
         }
     }
     ${Fragment}
 `;
 
 const mutate = gql`
-    mutation MutatePath($data: PathInput! ) {
-        mutatePath( data: $data ) {
-            ...PathData
+    mutation MutateEmotion($data: EmotionInput! ) {
+        mutateEmotion( data: $data ) {
+            ...EmotionData
         }
     }
     ${Fragment}

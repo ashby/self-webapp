@@ -3,7 +3,13 @@ import GqlResource from '../util/gql-resource';
 
 const Fragment = gql`
     fragment FeelingData on Feeling {
-        
+        id
+        key
+        title
+        thoughts
+        createdAt
+        updatedAt
+        userId
     }
 `;
 
@@ -18,8 +24,8 @@ const list = gql`
 `;
 
 const get = gql`
-    query($userId: ID!) {
-        feeling(userId: $userId) {
+    query($key: String!) {
+        feeling(key: $key) {
             ...FeelingData
         }
     }

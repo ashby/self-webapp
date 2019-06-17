@@ -16,8 +16,8 @@ export interface INestedResource {
 export interface IResource {
     __typename: string
     id: string
-    createdAt: string
-    updatedAt: string
+    createdAt?: string
+    updatedAt?: string
 }
 
 export interface IThought extends IResource{
@@ -30,8 +30,11 @@ export interface IThought extends IResource{
     feeling: string
     userId: string
     path: string
-    amendedAt: string
-    sharedAt: string
+    amendedAt?: string | undefined
+    sharedAt?: string | undefined
+    resolves?: string | undefined
+    resolvedAt?: string | undefined
+    prayedAt?: string | undefined
 }
 
 export interface IGraphqlWrapper<T> {

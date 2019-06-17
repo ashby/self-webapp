@@ -9,6 +9,7 @@ export interface ISelectProps {
     disabled?: boolean;
     items: Array<any>;
     onChange: (value: string|string[], attrKey: string, label?: any) => void;
+    multiSelect?: boolean
     value: string|string[];
     attrKey: string;
     labelKey: string;
@@ -29,6 +30,7 @@ export default class SelectInput extends React.Component<ISelectProps> {
 
     public renderItem: ItemRenderer<any> = (item: any, { handleClick, modifiers }) => (
         <MenuItem
+            text=""
             active={modifiers.active}
             key={item[this.props.idKey]}
             label={item[this.props.labelKey]}
@@ -74,7 +76,9 @@ export default class SelectInput extends React.Component<ISelectProps> {
             >
                 <label className="bp3-input-group__label">
                     <span className="bp3-input-group__label-text">{children}</span>
-                    <Button className="select-box" text={buttonText} rightIcon="double-caret-vertical" />
+                    <Button className="select-box" text={buttonText} rightIcon="double-caret-vertical">
+                        {activeItem && activeItem.title}
+                    </Button>
                 </label>
             </TypedSelect>
         );
