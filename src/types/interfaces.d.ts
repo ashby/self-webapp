@@ -23,6 +23,7 @@ export interface IResource {
 export interface IThought extends IResource{
     thought: string
     id: string
+    title: string
     character: string
     quality: boolean
     process: string
@@ -42,6 +43,7 @@ export interface IGraphqlWrapper<T> {
     error?: any;
     data?: T;
     children?: any;
+    refetch: Function
 }
 
 export interface IGraphqlDataWrapper<T> {

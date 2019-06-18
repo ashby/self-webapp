@@ -43,12 +43,18 @@ export default class EditResource extends React.Component<IEditResourceProps> {
         this.props.onSaveComplete();
     }
 
+    update = ( cache:any, { data }: any ) => {
+        console.log( 'updating' );
+        console.log( cache, data );
+        this.props.Resource.updateCache( cache, { data } );
+    }
+
     public render() {
         const { children, label, onReset, Resource } = this.props;
         return (
             <Mutation
                 mutation={Resource.mutate}
-                update={Resource.updateCache}
+                update={this.update}
             >
                 {(mutate: MutationFn) => (
                     <div className="b3-collapse-body grid-list__item-edit">

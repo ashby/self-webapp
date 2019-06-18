@@ -1,8 +1,9 @@
 import { get as _get, find, merge } from 'lodash';
+import { CONFIG } from '../config';
 
 interface IGqlResourceOptions {
     get?: { dataKey: string };
-    list?: { dataKey: string };
+    list: { dataKey: string };
     mutate?: { dataKey: string };
 }
 function getPrimaryDataKey(query: any): string {
@@ -17,13 +18,12 @@ export default class GqlResource {
     public get = { dataKey: '' };
     public list = { dataKey: '' };
     public mutate = { dataKey: '' };
-
+    
     constructor({ get, list, mutate }: IGqlResourceOptions) {
         if ( list ) {
             this.list = list;
             this.list.dataKey = getPrimaryDataKey(list);
         }
-        
         if ( get ) {
             this.get = get;
             this.get.dataKey = getPrimaryDataKey(get);
@@ -36,11 +36,11 @@ export default class GqlResource {
     }
 
     public writeListCache = (cache: any, primaryResource: any) => {
-        return cache.writeQuery( { query: this.list, data: { [this.list.dataKey]: primaryResource }} );
+        return cache.writeQuery( { query: this.list, data: { [this.list.dataKey]: primaryResource }, variables: {userId: localStorage.getItem( CONFIG.USER_ID) } } );
     }
 
     public readCache = (cache: any) => {
-        return cache.readQuery( { query: this.list } );
+        return cache.readQuery( { query: this.list, variables: {userId: localStorage.getItem( CONFIG.USER_ID) } } );
     }
 
     public updateCache = (cache: any, { data }: any) => {

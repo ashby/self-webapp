@@ -16,9 +16,7 @@ interface IDataProps {
 
 interface IResourceRouteProps {
     id?: string;
-    name?: string;
-    companyId?: string;
-    experienceName?: string;
+    title?: string;
     Resource: GqlResource;
     EditPanel: any;
 }
@@ -28,10 +26,8 @@ const ResourceView = ({ id, Resource, EditPanel }: IResourceRouteProps) => {
         <GraphQL query={Resource.get} variables={{ id }}>
             { GraphqlWrapper(({ data }: IGraphqlDataWrapper<IDataProps>) => {
                 const id = data[Resource.get.dataKey].id;
-                const name = data[Resource.get.dataKey].name;
-                const identity = data[Resource.get.dataKey].identity;
-                const companyId = data[Resource.get.dataKey].companyId;
-                const experienceName = data[Resource.get.dataKey].experienceName;
+                const createdAt = data[Resource.get.dataKey].createdAt;
+                const updatedAt = data[Resource.get.dataKey].updatedAt;
                 if (!Resource.get.dataKey) {
                     throw new Error('dataKey missing on query for resource view');
                 }
@@ -41,10 +37,8 @@ const ResourceView = ({ id, Resource, EditPanel }: IResourceRouteProps) => {
                             <div className="grid-list__item-details">
                                 <div> Type: {data[Resource.get.dataKey].__typename} </div>
                                 <div> ID: {id} </div>
-                                { name && <div> Name: {name} </div> }
-                                { identity && <div> Identity: {identity} </div> }
-                                { companyId && <div> Company ID: {companyId} </div> }
-                                { experienceName && <div> Experience Name: {experienceName} </div> }
+                                { createdAt && <div> Created: {createdAt} </div> }
+                                { updatedAt && <div> Last updated: {updatedAt} </div> }
                             </div>
                             <div className="grid-list__item-actions">
                                 <Icon icon={IconNames.EDIT} intent={Intent.PRIMARY} />

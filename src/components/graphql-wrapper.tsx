@@ -17,8 +17,8 @@ const GraphqlWrapperFactory = (Component: any) => ({
     } else if ( error ) {
         return <span>Error: {JSON.stringify( error )}</span>;
     }
-
-    return <Component data={data} />;
+    
+    return <Component key={data.id} data={data} />;
 };
 
 export default GraphqlWrapperFactory;

@@ -28,6 +28,7 @@ interface IListingViewOptions {
 
 const ItemLink = ({ resource }: IItemLinkProps) => {
     let linkId;
+    console.log(resource);
     switch(resource.__typename) {
         case 'Thought':
             linkId = resource.id;
@@ -39,7 +40,7 @@ const ItemLink = ({ resource }: IItemLinkProps) => {
     return (
         <Link to={linkId}>
             <Button className="item-link__button">
-                {resource.id && <span className="item-link__id">{resource.id}</span>}
+                {resource.title && <span className="item-link__id">{resource.title}</span>}
             </Button>
         </Link>
     );
@@ -49,10 +50,12 @@ const ItemLink = ({ resource }: IItemLinkProps) => {
 
 export default function listingView(Resource: GqlResource, options: IListingViewOptions = {}) {
     const { dataKey } = Resource.list;
-
+    console.log( dataKey );
     const ResourceList = () => (
-        <GraphQL query={Resource.list} variables={{ userId: localStorage.getItem( CONFIG.USER_ID ) }}>
-            {GraphqlWrapper(({ data }: IWrappedQueryProps) => (
+        <GraphQL query={Resource.list} fetchPolicy="network-only" variables={{ userId: localStorage.getItem( CONFIG.USER_ID ) }}>
+            {GraphqlWrapper(({ data }: IWrappedQueryProps) =>{
+                console.log( data );
+            return (
                 <ButtonGroup vertical alignText="left">
                     <Link to="./"><Button>{options.newLabel || 'New'}</Button></Link>
                     {data[dataKey] && data[dataKey].map( (resource: any) => (
@@ -63,7 +66,7 @@ export default function listingView(Resource: GqlResource, options: IListingView
                         />
                     ))}
                 </ButtonGroup>
-            ))}
+            ) } )}
         </GraphQL>
     );
 

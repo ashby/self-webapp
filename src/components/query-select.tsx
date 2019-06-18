@@ -11,6 +11,7 @@ interface IQuerySelectProps extends ISelectProps {
     multiSelect?: boolean;
     client?: string
     handleCompleted?: any
+    variables?: any
 }
 
 export default class QuerySelect extends React.Component<IQuerySelectProps> {
@@ -46,8 +47,9 @@ export default class QuerySelect extends React.Component<IQuerySelectProps> {
     public render() {
         return (
             <Query
+                fetchPolicy="network-only"
                 onCompleted={this.props.handleCompleted}
-                variables={{ userId: localStorage.getItem( CONFIG.USER_ID ) }} 
+                variables={this.props.variables || { userId: localStorage.getItem( CONFIG.USER_ID ) }} 
                 query={this.props.query}>
                 {this.queryRenderer}
             </Query>

@@ -5,6 +5,7 @@ const Fragment = gql`
     fragment ThoughtData on Thought {
         thought
         id
+        title
         character
         quality
         process
@@ -15,9 +16,9 @@ const Fragment = gql`
         createdAt
         updatedAt
         amendedAt
-        sharedAt,
-        resolves,
-        resolvedAt,
+        sharedAt
+        resolves
+        resolvedAt
         prayedAt
     }
 `;

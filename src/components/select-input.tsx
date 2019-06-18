@@ -22,7 +22,6 @@ const NO_RESULTS = <MenuItem disabled text="No results." />;
 
 export default class SelectInput extends React.Component<ISelectProps> {
     public static defaultProps = {
-        items: [],
         labelKey: 'name',
         idKey: 'id',
         defaultButtonText: 'Make a Selection',

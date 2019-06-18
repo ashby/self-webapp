@@ -20,6 +20,7 @@ import Process from 'queries/process';
 import Source from 'queries/source';
 import Emotion from 'queries/emotion';
 import Path from 'queries/path';
+import ProcessSources from 'queries/process-sources';
 import { IGraphqlWrapper } from 'types/interfaces';
 
 import { IThought } from 'types/interfaces';
@@ -37,14 +38,11 @@ interface IEditPanelProps {
 }
 
 export default class EditPanel extends React.Component<IEditPanelProps, IEditPanelState> {
-    static defaultProps = {
-        characters: [],
-        sources: []
-    }
     constructor(props: IEditPanelProps, ...args: any[]) {
         super(props, ...args);
 
         this.state = {
+            title: props.resource.title,
             thought: props.resource.thought,
             character: props.resource.character,
             quality: props.resource.quality,
@@ -66,9 +64,10 @@ export default class EditPanel extends React.Component<IEditPanelProps, IEditPan
     }
 
     public resetValues = () => {
-        const { thought, character, quality, process, source, feeling, userId, path, amendedAt, sharedAt } = this.props.resource;
+        const { title, thought, character, quality, process, source, feeling, userId, path, amendedAt, sharedAt } = this.props.resource;
        
         this.setState( {
+            title,
             thought, 
             character, 
             quality, 
@@ -83,7 +82,7 @@ export default class EditPanel extends React.Component<IEditPanelProps, IEditPan
     }
 
     public handleSaveComplete = () => {
-        //this.resetValues();
+        this.resetValues();
         this.setState({ isDisabled: false });
     }
 
@@ -91,7 +90,8 @@ export default class EditPanel extends React.Component<IEditPanelProps, IEditPan
 
     public handleSave = () => {
         this.setState({ isDisabled: true });
-        const { 
+        const {
+            title,
             thought, 
             character, 
             quality, 
@@ -106,6 +106,7 @@ export default class EditPanel extends React.Component<IEditPanelProps, IEditPan
             prayedAt,
         } = this.state;
         const data: any = { 
+            title,
             thought, 
             character, 
             quality, 
@@ -120,8 +121,9 @@ export default class EditPanel extends React.Component<IEditPanelProps, IEditPan
             amendedAt, 
             sharedAt
          };
+         //console.log( data );
         const { resource } = this.props;
-
+         console.log( resource );
         if (resource.id !== 'new') {
             data.id = resource.id;
         }
@@ -144,18 +146,16 @@ export default class EditPanel extends React.Component<IEditPanelProps, IEditPan
     handleDateChange = ( type:string, newDate:string ) => {
         console.log( type, newDate );
     }
+    handleResolveThoughtChange = () => {}
 
-    setCharacters = ( data:any ) => this.setState( { characters: data.characters } )
-    setSourceKeys = async ( data:any, client:any ) => {
-        const sourcePromises = data.process.sources.map( async ( key:string ) => await client.query( { query: Source.get, variables: { key } } ) );
-        const sourcesData = await Promise.all( sourcePromises );
-        const sources = sourcesData.map( (source:any) => ( { ...source.data.source } ) );
-        this.setState( { sources } );              
+    setCharacters = async ( data:any ) => {
+        this.setState( { characters: data.characters } );     
     }
        
     setProcess = ( key:string ) => {
-        const character = this.state.characters.filter( ( c:any ) => c.key === key) 
-        this.setState( { process: character[0].process } );
+        const character = this.state.characters.filter( ( c:any ) => c.key === key );
+        const process = !!character.length ? character[ 0 ].process : '';
+        this.setState( { process } );
     }
 
     resolve = ( event:any ) => this.setState( { hasResolution: !this.state.hasResolution } );
@@ -163,17 +163,16 @@ export default class EditPanel extends React.Component<IEditPanelProps, IEditPan
     public render() {
         
         const { resource } = this.props;
-        const { 
+        const {
+            title,
             thought, 
             character, 
             quality, 
             process, 
             source, 
             feeling, 
-            userId, 
             path, 
             amendedAt, 
-            sources,
             sharedAt,
             resolves,
             resolveAt,
@@ -188,6 +187,14 @@ export default class EditPanel extends React.Component<IEditPanelProps, IEditPan
                 onReset={this.resetValues}
             >
             <div>
+                <EditableInput 
+                    attrKey="title"
+                    onChange={this.handleChange}
+                    isDirty={false}
+                    value={title}>
+                    Title
+                </EditableInput>
+                <br />
                 <label>Thought</label>
                 <TextArea
                     fill
@@ -237,40 +244,35 @@ export default class EditPanel extends React.Component<IEditPanelProps, IEditPan
                     <br />
                     {
                         process && [
-                            <ApolloConsumer key="process-source-consumer"> 
-                                {
-                                    client => (
-                                        <Query
-                                            key="process-input" 
-                                            query={Process.get} 
-                                            variables={{key: process}}
-                                            onCompleted={( data:any ) => this.setSourceKeys( data, client )}>
-                                            { ( { data }:IGraphqlWrapper<any> ) => (
-                                                <EditableInput 
-                                                    attrKey="companyId"
-                                                    onChange={this.handleChange}
-                                                    disabled={true}
-                                                    isDirty={false}
-                                                    value={get( data, 'process.title', '' )}>
-                                                    Process
-                                                </EditableInput>
-                                            ) }
-                                        </Query>
-                                    )
-                                }
-                            </ApolloConsumer>,
+                            <Query
+                                key="process-input" 
+                                query={Process.get} 
+                                variables={{key: process}}>
+                                { ( { data }:IGraphqlWrapper<any> ) => (
+                                    <EditableInput 
+                                        attrKey="process"
+                                        onChange={this.handleChange}
+                                        disabled={true}
+                                        isDirty={false}
+                                        value={get( data, 'process.title', '' )}>
+                                        Process
+                                    </EditableInput>
+                                ) }
+                            </Query>,
                             <br key="process-source-break" />,
-                            <SelectInput
-                                key="source-select"
+                            <QuerySelect
+                                key="process-sources-select"
+                                items={[]}
+                                query={ProcessSources.list}
                                 attrKey="source"
                                 onChange={this.handleChange}
                                 value={source}
-                                items={sources}
-                                defaultButtonText="Choose a source"
                                 labelKey="title"
-                                idKey="key">
+                                idKey="key"
+                                variables={{key: process}}
+                                defaultButtonText="Choose a source">
                                 Source
-                            </SelectInput>
+                            </QuerySelect>
                         ]
                     }
                 </div>
@@ -332,14 +334,12 @@ export default class EditPanel extends React.Component<IEditPanelProps, IEditPan
                         <QuerySelect
                             items={[]}
                             query={Thought.list}
-                            multiSelect={true}
                             attrKey="resolves"
-                            onChange={this.handleCharacterChange}
+                            onChange={this.handleChange}
                             value={resolves}
                             labelKey="thought"
-                            idKey="key"
-                            defaultButtonText="Choose a thought"
-                            handleCompleted={this.setCharacters}>
+                            idKey="id"
+                            defaultButtonText="Choose a thought">
                             Resolves thought:
                         </QuerySelect>
                     </div>
